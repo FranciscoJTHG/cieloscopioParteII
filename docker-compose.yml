@@ -1,0 +1,27 @@
+
+services:
+  cieloscopioApp:
+    container_name: cieloscopioApp
+    image: cieloscopio-java-app:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD_USER=${DB_PASSWORD_USER}
+    depends_on:
+      - postgresDb
+  postgresDb:
+    container_name: postgresDb
+    image: postgres:latest
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD_USER}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data: 
